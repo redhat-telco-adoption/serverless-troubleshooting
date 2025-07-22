@@ -10,12 +10,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/redhat-telco-adoption/code-with-quarkus.git
+    repoURL: https://github.com/redhat-telco-adoption/serverless-troubleshooting.git
     targetRevision: main
     path: kubernetes/serverless/overlays/jdk
   destination:
     server: https://kubernetes.default.svc
-    namespace: code-with-quarkus
+    namespace: serverless-troubleshooting
   syncPolicy:
     automated:
       prune: true

@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: code-with-quarkus
-  namespace: argocd
+  namespace: openshift-gitops
 spec:
   generators:
   - list:
@@ -33,12 +33,12 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/redhat-telco-adoption/code-with-quarkus.git
+        repoURL: https://github.com/redhat-telco-adoption/serverless-troubleshooting.git
         targetRevision: main
         path: "{{path}}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: code-with-quarkus
+        namespace: serverless-troubleshooting
       syncPolicy:
         automated:
           prune: true
