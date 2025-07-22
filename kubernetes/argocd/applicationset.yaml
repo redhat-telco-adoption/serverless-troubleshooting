@@ -39,6 +39,11 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: serverless-troubleshooting
+      ignoreDifferences:
+      - group: serving.knative.dev
+        kind: Service
+        jsonPointers:
+        - /spec/selector
       syncPolicy:
         automated:
           prune: true
