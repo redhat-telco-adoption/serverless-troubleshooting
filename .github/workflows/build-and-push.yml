@@ -1,0 +1,85 @@
+name: Build and Push Container Images
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: quay.io
+  IMAGE_NAME: ${{ github.repository_owner }}/code-with-quarkus
+  JVM_IMAGE_TAG: jvm
+  NATIVE_IMAGE_TAG: native
+
+jobs:
+  build-and-push:
+    name: Build and Push Container Images
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: 'arm64,amd64'
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Quay.io
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+
+      # Build JVM version
+      - name: Build JVM application
+        run: ./mvnw package -DskipTests
+
+      # Build JVM container image and push
+      - name: Build and push JVM container image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: src/main/docker/Dockerfile.jvm
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.JVM_IMAGE_TAG }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+      # Build Native version
+      - name: Build Native application
+        run: ./mvnw package -Dnative -DskipTests -Dquarkus.native.container-build=true
+
+      # Build Native container image and push
+      - name: Build and push Native container image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: src/main/docker/Dockerfile.native-micro
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.NATIVE_IMAGE_TAG }}
+
+      # Add a summary of the build
+      - name: Build Summary
+        run: |
+          echo "## Container Images" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ JVM Image: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.JVM_IMAGE_TAG }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Native Image: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.NATIVE_IMAGE_TAG }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Latest Image: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest\`" >> $GITHUB_STEP_SUMMARY
