@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: quay.io
-  IMAGE_NAME: ${{ github.repository_owner }}/code-with-quarkus
+  IMAGE_NAME: redhat-telco-adoption/serverless-troubleshooting
   JVM_IMAGE_TAG: jvm
   NATIVE_IMAGE_TAG: native
 
