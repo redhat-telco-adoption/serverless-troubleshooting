@@ -84,9 +84,23 @@ This project includes a GitHub Actions workflow that automatically builds and pu
 
 The workflow creates the following container images:
 
-- `quay.io/<owner>/code-with-quarkus:jvm` - JVM version of the application
-- `quay.io/<owner>/code-with-quarkus:native` - Native version of the application
+- `quay.io/<owner>/code-with-quarkus:<version>-jdk` - JVM version of the application
+- `quay.io/<owner>/code-with-quarkus:<version>-native` - Native version of the application
 - `quay.io/<owner>/code-with-quarkus:latest` - Same as the JVM version
+
+Where `<version>` is the semantic version (e.g., 1.0.1) extracted from the project's pom.xml.
+
+### Automatic Version Bumping
+
+The workflow automatically bumps the patch version of the project with each push to the main branch:
+
+1. It extracts the current version from pom.xml
+2. Removes the "-SNAPSHOT" suffix for container image tags
+3. Increments the patch version (e.g., 1.0.0 → 1.0.1)
+4. Updates the pom.xml with the new version (adding back the "-SNAPSHOT" suffix)
+5. Uses the new version for container image tags
+
+This ensures that each new build pushed to the container registry has a unique version number.
 
 ### Required GitHub Secrets
 
@@ -100,11 +114,14 @@ To use this workflow, you need to set up the following secrets in your GitHub re
 Once the images are built and pushed, you can run them using:
 
 ```shell script
-# Run the JVM version
-docker run -i --rm -p 8080:8080 quay.io/<owner>/code-with-quarkus:jvm
+# Run the JVM version (replace <version> with the actual version, e.g., 1.0.1)
+docker run -i --rm -p 8080:8080 quay.io/<owner>/code-with-quarkus:<version>-jdk
 
-# Run the Native version
-docker run -i --rm -p 8080:8080 quay.io/<owner>/code-with-quarkus:native
+# Run the Native version (replace <version> with the actual version, e.g., 1.0.1)
+docker run -i --rm -p 8080:8080 quay.io/<owner>/code-with-quarkus:<version>-native
+
+# Or use the latest JVM version
+docker run -i --rm -p 8080:8080 quay.io/<owner>/code-with-quarkus:latest
 ```
 
-Replace `<owner>` with your GitHub username or organization name.
+Replace `<owner>` with your GitHub username or organization name and `<version>` with the current version of the application.
