@@ -84,7 +84,7 @@ jobs:
 
       # Build JVM version
       - name: Build JVM application
-        run: ./mvnw package -DskipTests
+        run: ./mvnw --batch-mode package -DskipTests
 
       # Build JVM container image and push
       - name: Build and push JVM container image
@@ -98,7 +98,7 @@ jobs:
 
       # Build Native version
       - name: Build Native application
-        run: ./mvnw package -Dnative -DskipTests -Dquarkus.native.container-build=true
+        run: ./mvnw --batch-mode package -Dnative -DskipTests -Dquarkus.native.container-build=true
 
       # Build Native container image and push
       - name: Build and push Native container image
