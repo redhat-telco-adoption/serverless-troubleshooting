@@ -7,6 +7,6 @@ spec:
     targetPort: 8080
   to:
     kind: Service
-    name: jdk-code-with-quarkus
+    name: jdk-deployment-code-with-quarkus
     weight: 100
   wildcardPolicy: None

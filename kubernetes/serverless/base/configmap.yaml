@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: code-with-quarkus-config
+data:
+  # Application configuration
+  QUARKUS_HTTP_HOST: "0.0.0.0"
+  QUARKUS_HTTP_PORT: "8080"
+  
+  # Logging configuration
+  QUARKUS_LOG_CONSOLE_ENABLE: "true"
+  QUARKUS_LOG_CONSOLE_FORMAT: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{2.}] (%t) %s%e%n"
+  QUARKUS_LOG_CONSOLE_LEVEL: "INFO"
+  QUARKUS_LOG_CATEGORY_ORG_ACME_LEVEL: "DEBUG"

@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jdk-serverless
+  namespace: argocd
+  labels:
+    app: code-with-quarkus
+    variant: jdk
+    type: serverless
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/redhat-telco-adoption/code-with-quarkus.git
+    targetRevision: main
+    path: kubernetes/serverless/overlays/jdk
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: code-with-quarkus
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

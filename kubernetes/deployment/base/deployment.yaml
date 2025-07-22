@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-with-quarkus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-with-quarkus
+  template:
+    metadata:
+      labels:
+        app: code-with-quarkus
+    spec:
+      containers:
+      - name: code-with-quarkus
+        # Image will be defined in overlays
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        env:
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: QUARKUS_HTTP_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: code-with-quarkus-config
+              key: QUARKUS_HTTP_HOST
+        - name: QUARKUS_HTTP_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: code-with-quarkus-config
+              key: QUARKUS_HTTP_PORT
+        - name: QUARKUS_LOG_CONSOLE_ENABLE
+          valueFrom:
+            configMapKeyRef:
+              name: code-with-quarkus-config
+              key: QUARKUS_LOG_CONSOLE_ENABLE
+        - name: QUARKUS_LOG_CONSOLE_FORMAT
+          valueFrom:
+            configMapKeyRef:
+              name: code-with-quarkus-config
+              key: QUARKUS_LOG_CONSOLE_FORMAT
+        - name: QUARKUS_LOG_CONSOLE_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: code-with-quarkus-config
+              key: QUARKUS_LOG_CONSOLE_LEVEL
+        - name: QUARKUS_LOG_CATEGORY_ORG_ACME_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: code-with-quarkus-config
+              key: QUARKUS_LOG_CATEGORY_ORG_ACME_LEVEL
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            memory: 256Mi
+            cpu: 100m
+        livenessProbe:
+          httpGet:
+            path: /q/health/live
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /q/health/ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 30

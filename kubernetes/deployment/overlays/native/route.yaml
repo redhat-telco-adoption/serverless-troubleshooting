@@ -7,6 +7,6 @@ spec:
     targetPort: 8080
   to:
     kind: Service
-    name: native-code-with-quarkus
+    name: native-deployment-code-with-quarkus
     weight: 100
   wildcardPolicy: None
