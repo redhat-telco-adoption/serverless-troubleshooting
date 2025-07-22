@@ -125,3 +125,40 @@ docker run -i --rm -p 8080:8080 quay.io/<owner>/code-with-quarkus:latest
 ```
 
 Replace `<owner>` with your GitHub username or organization name and `<version>` with the current version of the application.
+
+## Kubernetes/OpenShift Deployment
+
+This project includes Kubernetes/OpenShift resources to deploy both JDK and native versions of the application using Kustomize. The resources are located in the `kubernetes` directory.
+
+### Directory Structure
+
+```
+kubernetes/
+├── base/                  # Base resources common to all variants
+├── overlays/              # Overlay variants
+│   ├── jdk/               # JDK-specific resources
+│   └── native/            # Native-specific resources
+└── README.md              # Detailed deployment instructions
+```
+
+### Deploying to Kubernetes
+
+```shell script
+# Deploy JDK version
+kubectl apply -k kubernetes/overlays/jdk
+
+# Deploy Native version
+kubectl apply -k kubernetes/overlays/native
+```
+
+### Deploying to OpenShift
+
+```shell script
+# Deploy JDK version
+oc apply -k kubernetes/overlays/jdk
+
+# Deploy Native version
+oc apply -k kubernetes/overlays/native
+```
+
+For more detailed instructions, including how to access the application, available endpoints, and configuration options, see the [Kubernetes Deployment README](kubernetes/README.md).

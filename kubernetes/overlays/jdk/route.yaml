@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: code-with-quarkus
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: jdk-code-with-quarkus
+    weight: 100
+  wildcardPolicy: None

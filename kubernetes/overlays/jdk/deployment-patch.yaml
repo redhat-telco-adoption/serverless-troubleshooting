@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-with-quarkus
+spec:
+  template:
+    spec:
+      containers:
+      - name: code-with-quarkus
+        image: quay.io/redhat-telco-adoption/serverless-troubleshooting:1.0.1-jdk
+        env:
+        - name: JAVA_OPTS_APPEND
+          value: "-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+        resources:
+          limits:
+            memory: 768Mi
+          requests:
+            memory: 384Mi

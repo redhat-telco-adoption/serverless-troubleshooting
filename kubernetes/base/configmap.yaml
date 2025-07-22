@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: code-with-quarkus-config
+data:
+  application.properties: |
+    # Application configuration
+    quarkus.http.host=0.0.0.0
+    quarkus.http.port=8080
+    
+    # Logging configuration
+    quarkus.log.console.enable=true
+    quarkus.log.console.format=%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{2.}] (%t) %s%e%n
+    quarkus.log.console.level=INFO
+    quarkus.log.category."org.acme".level=DEBUG

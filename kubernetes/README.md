@@ -1,0 +1,128 @@
+# Kubernetes Deployment
+
+This directory contains Kubernetes/OpenShift resources to deploy the Quarkus application in both JDK and native versions using Kustomize.
+
+## Directory Structure
+
+```
+kubernetes/
+├── base/                  # Base resources common to all variants
+│   ├── configmap.yaml     # ConfigMap with application configuration
+│   ├── deployment.yaml    # Base Deployment configuration
+│   ├── kustomization.yaml # Kustomize configuration for base resources
+│   └── service.yaml       # Service to expose the application
+├── overlays/              # Overlay variants
+│   ├── jdk/               # JDK-specific resources
+│   │   ├── deployment-patch.yaml # JDK-specific deployment configuration
+│   │   ├── kustomization.yaml    # Kustomize configuration for JDK variant
+│   │   └── route.yaml            # OpenShift Route for JDK variant
+│   └── native/            # Native-specific resources
+│       ├── deployment-patch.yaml # Native-specific deployment configuration
+│       ├── kustomization.yaml    # Kustomize configuration for native variant
+│       └── route.yaml            # OpenShift Route for native variant
+└── README.md              # This file
+```
+
+## Deployment Instructions
+
+### Prerequisites
+
+- Kubernetes cluster or OpenShift cluster
+- `kubectl` or `oc` command-line tool
+- `kustomize` command-line tool (optional, as it's built into kubectl/oc)
+
+### Deploying to Kubernetes
+
+#### JDK Version
+
+```bash
+# Apply the JDK variant
+kubectl apply -k kubernetes/overlays/jdk
+```
+
+#### Native Version
+
+```bash
+# Apply the native variant
+kubectl apply -k kubernetes/overlays/native
+```
+
+### Deploying to OpenShift
+
+#### JDK Version
+
+```bash
+# Apply the JDK variant
+oc apply -k kubernetes/overlays/jdk
+```
+
+#### Native Version
+
+```bash
+# Apply the native variant
+oc apply -k kubernetes/overlays/native
+```
+
+## Accessing the Application
+
+### Kubernetes
+
+After deployment, you can access the application using port-forwarding:
+
+```bash
+# For JDK version
+kubectl port-forward svc/jdk-code-with-quarkus 8080:8080
+
+# For native version
+kubectl port-forward svc/native-code-with-quarkus 8080:8080
+```
+
+Then access the application at http://localhost:8080
+
+### OpenShift
+
+In OpenShift, the application is automatically exposed via a Route:
+
+```bash
+# Get the route URL for JDK version
+oc get route jdk-code-with-quarkus -o jsonpath='{.spec.host}'
+
+# Get the route URL for native version
+oc get route native-code-with-quarkus -o jsonpath='{.spec.host}'
+```
+
+Then access the application using the returned URL.
+
+## Available Endpoints
+
+- `/hello` - Returns a simple greeting message
+- `/system-info` - Returns system information in JSON format
+- `/q/health/live` - Liveness health check
+- `/q/health/ready` - Readiness health check
+
+## Configuration
+
+The application configuration is stored in a ConfigMap and mounted at `/deployments/config`. You can modify the configuration by editing the ConfigMap in `kubernetes/base/configmap.yaml`.
+
+## Resource Requirements
+
+### JDK Version
+
+- Memory Request: 384Mi
+- Memory Limit: 768Mi
+- CPU Request: 100m
+
+### Native Version
+
+- Memory Request: 128Mi
+- Memory Limit: 256Mi
+- CPU Request: 50m
+
+## Images
+
+The deployment uses the following container images:
+
+- JDK Version: `quay.io/redhat-telco-adoption/serverless-troubleshooting:latest-jdk`
+- Native Version: `quay.io/redhat-telco-adoption/serverless-troubleshooting:latest-native`
+
+You can modify the image tags in the respective `kustomization.yaml` files to use specific versions instead of `latest-jdk` and `latest-native`.
