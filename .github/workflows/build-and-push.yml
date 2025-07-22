@@ -37,7 +37,7 @@ jobs:
         id: version
         run: |
           # Extract current version from pom.xml
-          CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          CURRENT_VERSION=$(mvn --batch-mode help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Current version: $CURRENT_VERSION"
           
           # Remove -SNAPSHOT suffix if present
@@ -58,7 +58,7 @@ jobs:
             echo "Bumped version: $NEW_VERSION"
             
             # Update pom.xml with new version
-            mvn versions:set -DnewVersion="$NEW_VERSION-SNAPSHOT" -DgenerateBackupPoms=false
+            mvn --batch-mode versions:set -DnewVersion="$NEW_VERSION-SNAPSHOT" -DgenerateBackupPoms=false
             
             # Set output for later steps
             echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
