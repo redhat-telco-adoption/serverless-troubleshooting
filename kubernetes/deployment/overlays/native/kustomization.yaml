@@ -3,12 +3,16 @@ kind: Kustomization
 
 resources:
 - ../../base
-- route.yaml
 
 namePrefix: native-
 
-commonLabels:
-  variant: native
+labels:
+- includeSelectors: true
+  pairs:
+    variant: native
+    app: quarkus-native-deployment
+    app.kubernetes.io/name: quarkus-native-deployment
+    app.kubernetes.io/part-of: quarkus-native-application
 
 images:
 - name: serverless-troubleshooting
@@ -17,3 +21,4 @@ images:
 
 patches:
 - path: deployment-patch.yaml
+- path: route-patch.yaml

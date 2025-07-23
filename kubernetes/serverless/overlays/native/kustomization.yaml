@@ -17,3 +17,6 @@ labels:
 - includeSelectors: true
   pairs:
     variant: native
+    app: quarkus-native-serverless
+    app.kubernetes.io/name: quarkus-native-serverless
+    app.kubernetes.io/part-of: quarkus-native-application

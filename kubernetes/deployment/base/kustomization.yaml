@@ -7,10 +7,9 @@ resources:
 - deployment.yaml
 - service.yaml
 - configmap.yaml
+- route.yaml
 
 labels:
 - includeSelectors: true
   pairs:
-    app: code-with-quarkus
-    app.kubernetes.io/name: code-with-quarkus
-    app.kubernetes.io/part-of: quarkus-application
+    component: deployment

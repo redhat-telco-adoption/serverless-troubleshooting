@@ -16,3 +16,6 @@ labels:
 - includeSelectors: true
   pairs:
     variant: jdk
+    app: quarkus-jdk-serverless
+    app.kubernetes.io/name: quarkus-jdk-serverless
+    app.kubernetes.io/part-of: quarkus-jdk-application

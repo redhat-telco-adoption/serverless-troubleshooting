@@ -3,10 +3,7 @@ kind: Route
 metadata:
   name: code-with-quarkus
 spec:
-  port:
-    targetPort: 8080
   to:
     kind: Service
-    name: deployment-code-with-quarkus
+    name: jdk-deployment-code-with-quarkus
     weight: 100
-  wildcardPolicy: None

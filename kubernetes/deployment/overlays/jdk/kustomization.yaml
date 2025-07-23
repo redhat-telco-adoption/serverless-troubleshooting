@@ -3,12 +3,12 @@ kind: Kustomization
 
 resources:
 - ../../base
-- route.yaml
 
 namePrefix: jdk-
 
 patches:
 - path: deployment-patch.yaml
+- path: route-patch.yaml
 
 images:
 - name: serverless-troubleshooting
@@ -19,3 +19,6 @@ labels:
 - includeSelectors: true
   pairs:
     variant: jdk
+    app: quarkus-jdk-deployment
+    app.kubernetes.io/name: quarkus-jdk-deployment
+    app.kubernetes.io/part-of: quarkus-jdk-application
