@@ -3,8 +3,12 @@ name: Build and Push Container Images
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'kubernetes/**'
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - 'kubernetes/**'
   workflow_dispatch:
 
 env:
@@ -66,6 +70,32 @@ jobs:
             # For pull requests, just use the current version without bumping
             echo "version=$SEMVER_VERSION" >> $GITHUB_OUTPUT
           fi
+          
+      - name: Update Kustomize image tags
+        if: github.event_name != 'pull_request'
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo "Updating Kustomize image tags to version $VERSION"
+          
+          # Update deployment overlays using kustomize edit set image
+          cd kubernetes/deployment/overlays/jdk
+          kustomize edit set image code-with-quarkus=quay.io/redhat-telco-adoption/serverless-troubleshooting:$VERSION-jdk
+          cd ../native
+          kustomize edit set image code-with-quarkus=quay.io/redhat-telco-adoption/serverless-troubleshooting:$VERSION-native
+          cd ../../../..
+          
+          # Update serverless overlays by modifying the service-patch.yaml files
+          sed -i "s|image: quay.io/redhat-telco-adoption/serverless-troubleshooting:.*-jdk|image: quay.io/redhat-telco-adoption/serverless-troubleshooting:$VERSION-jdk|" kubernetes/serverless/overlays/jdk/service-patch.yaml
+          sed -i "s|image: quay.io/redhat-telco-adoption/serverless-troubleshooting:.*-native|image: quay.io/redhat-telco-adoption/serverless-troubleshooting:$VERSION-native|" kubernetes/serverless/overlays/native/service-patch.yaml
+          
+      - name: Commit version changes
+        if: github.event_name != 'pull_request'
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add pom.xml kubernetes/
+          git commit -m "Bump version to ${{ steps.version.outputs.version }}"
+          git push
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
