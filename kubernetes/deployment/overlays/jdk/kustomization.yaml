@@ -13,7 +13,7 @@ patches:
 images:
 - name: serverless-troubleshooting
   newName: quay.io/redhat-telco-adoption/serverless-troubleshooting
-  newTag: d140ec3-jdk
+  newTag: 4ad6e19-jdk
 
 labels:
 - includeSelectors: true

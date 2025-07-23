@@ -12,7 +12,7 @@ patches:
 images:
 - name: serverless-troubleshooting
   newName: quay.io/redhat-telco-adoption/serverless-troubleshooting
-  newTag: d140ec3-native
+  newTag: 4ad6e19-native
 labels:
 - includeSelectors: true
   pairs:
