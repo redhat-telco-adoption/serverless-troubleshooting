@@ -75,9 +75,10 @@ spec:
               key: QUARKUS_LOG_CATEGORY_ORG_ACME_LEVEL
         resources:
           limits:
-            memory: 512Mi
+            memory: 128Mi
+            cpu: 300m
           requests:
-            memory: 256Mi
+            memory: 64Mi
             cpu: 100m
         livenessProbe:
           httpGet:

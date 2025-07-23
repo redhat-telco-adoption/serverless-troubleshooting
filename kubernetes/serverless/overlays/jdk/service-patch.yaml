@@ -8,9 +8,3 @@ spec:
       containers:
       - name: code-with-quarkus
         image: serverless-troubleshooting
-        resources:
-          limits:
-            memory: 512Mi
-          requests:
-            memory: 256Mi
-            cpu: 100m

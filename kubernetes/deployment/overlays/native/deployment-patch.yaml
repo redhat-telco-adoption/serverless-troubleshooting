@@ -9,9 +9,9 @@ spec:
       - name: code-with-quarkus
         resources:
           limits:
-            memory: 256Mi
-          requests:
             memory: 128Mi
+          requests:
+            memory: 64Mi
             cpu: 50m
         startupProbe:
           httpGet:
