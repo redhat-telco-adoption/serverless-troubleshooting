@@ -28,7 +28,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+          
+      - name: Get short SHA
+        id: sha
+        run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -98,7 +102,7 @@ jobs:
           file: src/main/docker/Dockerfile.jvm
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-jdk,${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-jdk,${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest,${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.sha.outputs.short_sha }}-jdk
 
       # Build Native version
       - name: Build Native application
@@ -112,18 +116,19 @@ jobs:
           file: src/main/docker/Dockerfile.native-micro
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-native
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-native,${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.sha.outputs.short_sha }}-native,
 
       # Add a summary of the build
       - name: Build Summary
         run: |
           echo "## Container Images" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ JVM Image: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-jdk\`" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Native Image: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-native\`" >> $GITHUB_STEP_SUMMARY
+          echo "✅ JVM Image: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.sha.outputs.short_sha }}-jdk\`" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Native Image: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.sha.outputs.short_sha }}-native\`" >> $GITHUB_STEP_SUMMARY
           echo "✅ Latest Image: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest\`" >> $GITHUB_STEP_SUMMARY
           
           if [[ "${{ github.event_name }}" != "pull_request" ]]; then
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "🔄 Version bumped to: \`${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "🔄 Commit SHA: \`${{ steps.sha.outputs.short_sha }}\`" >> $GITHUB_STEP_SUMMARY
           fi
