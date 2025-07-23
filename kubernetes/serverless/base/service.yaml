@@ -6,7 +6,7 @@ spec:
   template:
     metadata:
       annotations:
-        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/minScale: "0"
     spec:
       containers:
       - name: code-with-quarkus

@@ -1,0 +1,240 @@
+{
+  "info": {
+    "name": "Code with Quarkus API",
+    "description": "Collection of API requests for the Code with Quarkus application",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "JDK Serverless (HTTP)",
+      "item": [
+        {
+          "name": "Get System Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "*/*",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://jdk-code-with-quarkus-serverless-troubleshooting.apps.cluster-jf96c.jf96c.sandbox1312.opentlc.com/system-info",
+              "protocol": "http",
+              "host": [
+                "jdk-code-with-quarkus-serverless-troubleshooting",
+                "apps",
+                "cluster-jf96c",
+                "jf96c",
+                "sandbox1312",
+                "opentlc",
+                "com"
+              ],
+              "path": [
+                "system-info"
+              ]
+            },
+            "description": "Returns detailed system information in JSON format including OS details, memory information, CPU count, current date, and Kubernetes environment information."
+          },
+          "response": []
+        }
+      ],
+      "description": "Requests to the JDK serverless deployment over HTTP"
+    },
+    {
+      "name": "Native Serverless (HTTP)",
+      "item": [
+        {
+          "name": "Get System Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "*/*",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://native-code-with-quarkus-serverless-troubleshooting.apps.cluster-jf96c.jf96c.sandbox1312.opentlc.com/system-info",
+              "protocol": "http",
+              "host": [
+                "native-code-with-quarkus-serverless-troubleshooting",
+                "apps",
+                "cluster-jf96c",
+                "jf96c",
+                "sandbox1312",
+                "opentlc",
+                "com"
+              ],
+              "path": [
+                "system-info"
+              ]
+            },
+            "description": "Returns detailed system information in JSON format including OS details, memory information, CPU count, current date, and Kubernetes environment information."
+          },
+          "response": []
+        }
+      ],
+      "description": "Requests to the Native serverless deployment over HTTP"
+    },
+    {
+      "name": "JDK Serverless (HTTPS)",
+      "item": [
+        {
+          "name": "Get System Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "*/*",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://jdk-serverless-code-with-quarkus-serverless-troubleshooting.apps.cluster-jf96c.jf96c.sandbox1312.opentlc.com/system-info",
+              "protocol": "https",
+              "host": [
+                "jdk-serverless-code-with-quarkus-serverless-troubleshooting",
+                "apps",
+                "cluster-jf96c",
+                "jf96c",
+                "sandbox1312",
+                "opentlc",
+                "com"
+              ],
+              "path": [
+                "system-info"
+              ]
+            },
+            "description": "Returns detailed system information in JSON format including OS details, memory information, CPU count, current date, and Kubernetes environment information."
+          },
+          "response": []
+        }
+      ],
+      "description": "Requests to the JDK serverless deployment over HTTPS"
+    },
+    {
+      "name": "Native Serverless (HTTPS)",
+      "item": [
+        {
+          "name": "Get System Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "*/*",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://native-serverless-code-with-quarkus-serverless-troubleshooting.apps.cluster-jf96c.jf96c.sandbox1312.opentlc.com/system-info",
+              "protocol": "https",
+              "host": [
+                "native-serverless-code-with-quarkus-serverless-troubleshooting",
+                "apps",
+                "cluster-jf96c",
+                "jf96c",
+                "sandbox1312",
+                "opentlc",
+                "com"
+              ],
+              "path": [
+                "system-info"
+              ]
+            },
+            "description": "Returns detailed system information in JSON format including OS details, memory information, CPU count, current date, and Kubernetes environment information."
+          },
+          "response": []
+        }
+      ],
+      "description": "Requests to the Native serverless deployment over HTTPS"
+    },
+    {
+      "name": "Local Development",
+      "item": [
+        {
+          "name": "Get System Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "*/*",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/system-info",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "system-info"
+              ]
+            },
+            "description": "Returns detailed system information in JSON format including OS details, memory information, CPU count, current date, and Kubernetes environment information."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Hello",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/hello",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "hello"
+              ]
+            },
+            "description": "Returns a simple text greeting"
+          },
+          "response": []
+        }
+      ],
+      "description": "Requests to the local development environment"
+    }
+  ]
+}
