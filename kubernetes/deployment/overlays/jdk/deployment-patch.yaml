@@ -7,7 +7,6 @@ spec:
     spec:
       containers:
       - name: code-with-quarkus
-        image: quay.io/redhat-telco-adoption/serverless-troubleshooting:1.0.1-jdk
         env:
         - name: JAVA_OPTS_APPEND
           value: "-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"

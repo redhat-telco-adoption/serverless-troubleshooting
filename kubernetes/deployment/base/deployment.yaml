@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: code-with-quarkus
-        # Image will be defined in overlays
+        image: serverless-troubleshooting:1.0.0
         ports:
         - containerPort: 8080
           name: http

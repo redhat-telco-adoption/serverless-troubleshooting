@@ -7,7 +7,6 @@ spec:
     spec:
       containers:
       - name: code-with-quarkus
-        image: quay.io/redhat-telco-adoption/serverless-troubleshooting:1.0.1-native
         resources:
           limits:
             memory: 256Mi

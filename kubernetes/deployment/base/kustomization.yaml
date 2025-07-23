@@ -4,11 +4,13 @@ kind: Kustomization
 namePrefix: deployment-
 
 resources:
-  - deployment.yaml
-  - service.yaml
-  - configmap.yaml
+- deployment.yaml
+- service.yaml
+- configmap.yaml
 
-commonLabels:
-  app: code-with-quarkus
-  app.kubernetes.io/name: code-with-quarkus
-  app.kubernetes.io/part-of: quarkus-application
+labels:
+- includeSelectors: true
+  pairs:
+    app: code-with-quarkus
+    app.kubernetes.io/name: code-with-quarkus
+    app.kubernetes.io/part-of: quarkus-application

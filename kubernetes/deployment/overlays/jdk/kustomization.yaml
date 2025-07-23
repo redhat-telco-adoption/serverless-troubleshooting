@@ -2,18 +2,20 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base
-  - route.yaml
+- ../../base
+- route.yaml
 
 namePrefix: jdk-
 
-commonLabels:
-  variant: jdk
+patches:
+- path: deployment-patch.yaml
 
 images:
-  - name: code-with-quarkus
-    newName: quay.io/redhat-telco-adoption/serverless-troubleshooting
-    newTag: 1.0.1-jdk
+- name: serverless-troubleshooting
+  newName: quay.io/redhat-telco-adoption/serverless-troubleshooting
+  newTag: d140ec3-jdk
 
-patchesStrategicMerge:
-  - deployment-patch.yaml
+labels:
+- includeSelectors: true
+  pairs:
+    variant: jdk
