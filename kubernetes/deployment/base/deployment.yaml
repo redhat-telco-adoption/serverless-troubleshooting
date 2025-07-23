@@ -4,6 +4,11 @@ metadata:
   name: code-with-quarkus
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: code-with-quarkus
@@ -12,9 +17,19 @@ spec:
       labels:
         app: code-with-quarkus
     spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: code-with-quarkus
         image: serverless-troubleshooting:1.0.0
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
         ports:
         - containerPort: 8080
           name: http

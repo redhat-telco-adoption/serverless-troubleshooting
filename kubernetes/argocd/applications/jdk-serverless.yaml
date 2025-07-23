@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: jdk-serverless
-  namespace: argocd
+  namespace: openshift-gitops
   labels:
     app: code-with-quarkus
     variant: jdk
